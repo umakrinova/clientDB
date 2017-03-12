@@ -7,7 +7,7 @@ using Xceed.Wpf.Toolkit;
 
 namespace clientDB
 {
-    class Client
+    public class Client
     {
         private string surname;
 
@@ -47,6 +47,14 @@ namespace clientDB
             this.name = name;
             this.patronymic = patronymic;
             this.number = number;
+        }
+
+        public string Info
+        {
+            get
+            {
+                return $"{surname} {name} {patronymic}   {number}";
+            }
         }
     }
 }
