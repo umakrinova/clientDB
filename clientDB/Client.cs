@@ -49,11 +49,20 @@ namespace clientDB
             this.number = number;
         }
 
+        private Tariff tariff;
+
+        public Tariff Tariff
+        {
+            get { return tariff; }
+            set { tariff = value; }
+        }
+
+
         public string Info
         {
             get
             {
-                return $"{surname} {name} {patronymic}   {number}";
+                return $"{surname} {name} {patronymic}   {number}   {tariff}";
             }
         }
     }

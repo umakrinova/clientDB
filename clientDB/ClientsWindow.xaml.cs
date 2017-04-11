@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.IO;
 
 namespace clientDB
 {
@@ -20,6 +21,7 @@ namespace clientDB
     public partial class ClientsWindow : Window
     {
         List<Client> clients = new List<Client>();
+
         public ClientsWindow()
         {
             InitializeComponent();

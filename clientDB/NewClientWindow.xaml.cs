@@ -67,6 +67,7 @@ namespace clientDB
             }
 
             newClient = new Client(textBoxSurname.Text, textBoxName.Text, textBoxPatronymic.Text, textBoxNumber.Text);
+            //newClient.Tariff = comboBoxTariff.SelectedItem as Tariff;
             DialogResult = true;
         }
     }
