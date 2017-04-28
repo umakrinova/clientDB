@@ -62,7 +62,7 @@ namespace clientDB
         {
             get
             {
-                return $"{surname} {name} {patronymic}   {number}   {tariff}";
+                return $"{surname} {name} {patronymic}  {number}   {tariff.Name}   {tariff.MonthCost}";
             }
         }
     }

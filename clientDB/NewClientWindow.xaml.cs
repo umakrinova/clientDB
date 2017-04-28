@@ -21,9 +21,10 @@ namespace clientDB
     /// </summary>
     public partial class NewClientWindow : Window
     {
-        public NewClientWindow()
+        public NewClientWindow(List<Tariff> tariffs)
         {
             InitializeComponent();
+            comboBoxTariffs.ItemsSource = tariffs;
         }
 
         Client newClient;
@@ -65,9 +66,15 @@ namespace clientDB
                 textBoxNumber.Focus();
                 return;
             }
+            if (comboBoxTariffs.SelectedItem==null)
+            {
+                MessageBox.Show("Необходимо выбрать тариф.", "Ошибка добавления");
+                comboBoxTariffs.Focus();
+                return;
+            }
 
             newClient = new Client(textBoxSurname.Text, textBoxName.Text, textBoxPatronymic.Text, textBoxNumber.Text);
-            //newClient.Tariff = comboBoxTariff.SelectedItem as Tariff;
+            newClient.Tariff = comboBoxTariffs.SelectedItem as Tariff;
             DialogResult = true;
         }
     }
