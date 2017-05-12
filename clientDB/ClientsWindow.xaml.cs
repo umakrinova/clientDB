@@ -59,15 +59,13 @@ namespace clientDB
         private void listBoxClients_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             buttonRemove.IsEnabled = listBoxClients.SelectedIndex != -1;
+            buttonEdit.IsEnabled = listBoxClients.SelectedIndex != -1;
         }
 
         private void buttonSearch_Click(object sender, RoutedEventArgs e)
         {
-            var window = new SearchWindow();
-            if (window.ShowDialog().Value)
-            {
-                RefreshListBox(); //what for??
-            }
+            var window = new SearchWindow(clients, tariffs);
+            if (window.ShowDialog().Value) { }//what for?        
         }
 
         private void SaveData()
@@ -117,12 +115,27 @@ namespace clientDB
             catch(FileNotFoundException)
             {
                 tariffs.Add(new Tariff("Базовый", 300));
+                tariffs.Add(new Tariff("Продвинутый", 500));
             }
             catch
             {
                 MessageBox.Show("Ошибка чтения из файла");
             }
             RefreshListBox();
+        }
+
+        private void buttonEdit_Click(object sender, RoutedEventArgs e)
+        {
+            if (listBoxClients.SelectedIndex != -1)
+            {
+                var window = new EditingWindow((Client) listBoxClients.SelectedItem, tariffs);
+                if (window.ShowDialog().Value)
+                {
+                    clients[listBoxClients.SelectedIndex] = window.Client;
+                    SaveData();
+                    RefreshListBox();
+                }
+            }
         }
     }
 }

@@ -10,31 +10,36 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
-using System.IO;
 
 namespace clientDB
 {
     /// <summary>
-    /// Логика взаимодействия для MainWindow.xaml
+    /// Логика взаимодействия для EditingWindow.xaml
     /// </summary>
-    public partial class NewClientWindow : Window
+    public partial class EditingWindow : Window
     {
-        public NewClientWindow(List<Tariff> tariffs)
+        private Client client;
+
+        public Client Client
+        {
+            get { return client; }
+            set { client = value; }
+        }
+
+
+        public EditingWindow(Client client, List<Tariff> tariffs)
         {
             InitializeComponent();
             comboBoxTariffs.ItemsSource = tariffs;
+            textBoxSurname.Text = client.Surname;
+            textBoxName.Text = client.Name;
+            textBoxPatronymic.Text = client.Patronymic;
+            textBoxNumber.Text = client.Number;
+            comboBoxTariffs.SelectedItem = client.Tariff;
         }
 
-        Client newClient;
-
-        public Client NewClient
-        {
-            get { return newClient; }
-        }
-
-        private void buttonAdd_Click(object sender, RoutedEventArgs e)
+        private void buttonEdit_Click(object sender, RoutedEventArgs e)
         {
             if (string.IsNullOrWhiteSpace(textBoxSurname.Text))
             {
@@ -63,15 +68,15 @@ namespace clientDB
                 textBoxNumber.Focus();
                 return;
             }
-            if (comboBoxTariffs.SelectedItem==null)
+            if (comboBoxTariffs.SelectedItem == null)
             {
                 MessageBox.Show("Необходимо выбрать тариф.", "Ошибка добавления");
                 comboBoxTariffs.Focus();
                 return;
             }
 
-            newClient = new Client(textBoxSurname.Text, textBoxName.Text, textBoxPatronymic.Text, textBoxNumber.Text);
-            newClient.Tariff = comboBoxTariffs.SelectedItem as Tariff;
+            client = new Client(textBoxSurname.Text, textBoxName.Text, textBoxPatronymic.Text, textBoxNumber.Text);
+            client.Tariff = comboBoxTariffs.SelectedItem as Tariff;
             DialogResult = true;
         }
     }
