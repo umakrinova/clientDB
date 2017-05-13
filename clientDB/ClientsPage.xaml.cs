@@ -10,25 +10,45 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.IO;
 
 namespace clientDB
 {
     /// <summary>
-    /// Логика взаимодействия для ClientsWindow.xaml
+    /// Логика взаимодействия для ClientsPage.xaml
     /// </summary>
-    public partial class ClientsWindow : Window
+    public partial class ClientsPage : Page
     {
         const string FileName = "clients.txt";
         List<Client> clients = new List<Client>();
         List<Tariff> tariffs = new List<Tariff>();
 
-        public ClientsWindow()
+        public ClientsPage()
         {
             InitializeComponent();
             LoadData();
         }
+
+        public ClientsPage(Client newClient)
+        {
+            InitializeComponent();
+            LoadData();
+            clients.Add(newClient);
+            SaveData();
+            RefreshListBox();
+        }
+
+        public ClientsPage(Client client, int index)
+        {
+            InitializeComponent();
+            LoadData();
+            clients[index] = client;
+            SaveData();
+            RefreshListBox();
+        }
+
         private void RefreshListBox()
         {
             listBoxClients.ItemsSource = null;
@@ -37,13 +57,7 @@ namespace clientDB
 
         private void buttonAdd_Click(object sender, RoutedEventArgs e)
         {
-            var window = new NewClientWindow(tariffs);
-            if (window.ShowDialog().Value)
-            {
-                clients.Add(window.NewClient);
-                SaveData();
-                RefreshListBox();
-            }
+            NavigationService.Navigate(new NewClientPage(tariffs));
         }
 
         private void buttonRemove_Click(object sender, RoutedEventArgs e)
@@ -64,8 +78,7 @@ namespace clientDB
 
         private void buttonSearch_Click(object sender, RoutedEventArgs e)
         {
-            var window = new SearchWindow(clients, tariffs);
-            if (window.ShowDialog().Value) { }//what for?        
+            NavigationService.Navigate(new SearchPage(clients, tariffs));    
         }
 
         private void SaveData()
@@ -87,9 +100,10 @@ namespace clientDB
                 tariffs = new List<Tariff>();
                 using (var sr = new StreamReader(FileName))
                 {
+                    string line="";
                     while (!sr.EndOfStream)
                     {
-                        var line = sr.ReadLine();
+                        line = sr.ReadLine();
                         var parts = line.Split(':');
                         if (parts.Length == 6)
                         {
@@ -110,9 +124,14 @@ namespace clientDB
                             clients.Add(client);
                         }
                     }
+                    if (line == "")
+                    {
+                        tariffs.Add(new Tariff("Базовый", 300));
+                        tariffs.Add(new Tariff("Продвинутый", 500));
+                    }
                 }
             }
-            catch(FileNotFoundException)
+            catch (FileNotFoundException)
             {
                 tariffs.Add(new Tariff("Базовый", 300));
                 tariffs.Add(new Tariff("Продвинутый", 500));
@@ -128,13 +147,8 @@ namespace clientDB
         {
             if (listBoxClients.SelectedIndex != -1)
             {
-                var window = new EditingWindow((Client) listBoxClients.SelectedItem, tariffs);
-                if (window.ShowDialog().Value)
-                {
-                    clients[listBoxClients.SelectedIndex] = window.Client;
-                    SaveData();
-                    RefreshListBox();
-                }
+                NavigationService.Navigate(new EditingPage((Client) listBoxClients.SelectedItem, 
+                    listBoxClients.SelectedIndex, tariffs));               
             }
         }
     }
