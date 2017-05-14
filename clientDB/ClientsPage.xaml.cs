@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.IO;
+using System.Xml.Serialization;
 
 namespace clientDB
 {
@@ -21,21 +22,30 @@ namespace clientDB
     /// </summary>
     public partial class ClientsPage : Page
     {
-        const string FileName = "clients.txt";
-        List<Client> clients = new List<Client>();
-        List<Tariff> tariffs = new List<Tariff>();
+        const string FileName = "clients.xml";
+        ProgramData data;
 
         public ClientsPage()
         {
             InitializeComponent();
-            LoadData();
+            try
+            {
+                data = DeserializeData();
+            }
+            catch
+            {
+                MessageBox.Show
+                    ("Ошибка чтения из файла. Если файл "
+                    + FileName + " существует, но в него не записаны данные о клиентах, удалите файл.");
+                System.Diagnostics.Process.GetCurrentProcess().Kill();
+            }
         }
 
         public ClientsPage(Client newClient)
         {
             InitializeComponent();
-            LoadData();
-            clients.Add(newClient);
+            data = DeserializeData();
+            data.Clients.Add(newClient);
             SaveData();
             RefreshListBox();
         }
@@ -43,8 +53,8 @@ namespace clientDB
         public ClientsPage(Client client, int index)
         {
             InitializeComponent();
-            LoadData();
-            clients[index] = client;
+            data = DeserializeData();
+            data.Clients[index] = client;
             SaveData();
             RefreshListBox();
         }
@@ -52,19 +62,19 @@ namespace clientDB
         private void RefreshListBox()
         {
             listBoxClients.ItemsSource = null;
-            listBoxClients.ItemsSource = clients;
+            listBoxClients.ItemsSource = data.Clients;
         }
 
         private void buttonAdd_Click(object sender, RoutedEventArgs e)
         {
-            NavigationService.Navigate(new NewClientPage(tariffs));
+            NavigationService.Navigate(new NewClientPage(data.Tariffs));
         }
 
         private void buttonRemove_Click(object sender, RoutedEventArgs e)
         {
             if (listBoxClients.SelectedIndex != -1)
             {
-                clients.RemoveAt(listBoxClients.SelectedIndex);
+                data.Clients.RemoveAt(listBoxClients.SelectedIndex);
                 SaveData();
                 RefreshListBox();
             }
@@ -78,69 +88,7 @@ namespace clientDB
 
         private void buttonSearch_Click(object sender, RoutedEventArgs e)
         {
-            NavigationService.Navigate(new SearchPage(clients, tariffs));    
-        }
-
-        private void SaveData()
-        {
-            using (var sw = new StreamWriter(FileName))
-            {
-                foreach (var client in clients)
-                {
-                    sw.WriteLine($"{client.Surname}:{client.Name}:{client.Patronymic}:{client.Number}:{client.Tariff.Name}:{ client.Tariff.MonthCost}");
-                }
-            }
-        }
-
-        private void LoadData()
-        {
-            try
-            {
-                clients = new List<Client>();
-                tariffs = new List<Tariff>();
-                using (var sr = new StreamReader(FileName))
-                {
-                    string line="";
-                    while (!sr.EndOfStream)
-                    {
-                        line = sr.ReadLine();
-                        var parts = line.Split(':');
-                        if (parts.Length == 6)
-                        {
-                            int i = 0;
-                            while (i < tariffs.Count && tariffs[i].Name != parts[4])
-                                i++;
-                            Tariff t;
-                            if (i < tariffs.Count)
-                                t = tariffs[i];
-                            else
-                            {
-                                t = new Tariff(parts[4], double.Parse(parts[5]));
-                                tariffs.Add(t);
-                            }
-
-                            var client = new Client(parts[0], parts[1], parts[2], parts[3]);
-                            client.Tariff = t;
-                            clients.Add(client);
-                        }
-                    }
-                    if (line == "")
-                    {
-                        tariffs.Add(new Tariff("Базовый", 300));
-                        tariffs.Add(new Tariff("Продвинутый", 500));
-                    }
-                }
-            }
-            catch (FileNotFoundException)
-            {
-                tariffs.Add(new Tariff("Базовый", 300));
-                tariffs.Add(new Tariff("Продвинутый", 500));
-            }
-            catch
-            {
-                MessageBox.Show("Ошибка чтения из файла");
-            }
-            RefreshListBox();
+            NavigationService.Navigate(new SearchPage(data.Clients, data.Tariffs));    
         }
 
         private void buttonEdit_Click(object sender, RoutedEventArgs e)
@@ -148,8 +96,46 @@ namespace clientDB
             if (listBoxClients.SelectedIndex != -1)
             {
                 NavigationService.Navigate(new EditingPage((Client) listBoxClients.SelectedItem, 
-                    listBoxClients.SelectedIndex, tariffs));               
+                    listBoxClients.SelectedIndex, data.Tariffs));               
             }
+        }
+
+        private void SaveData()
+        {
+            XmlSerializer xml = new XmlSerializer(typeof(ProgramData));
+            using (FileStream fs = new FileStream(FileName, FileMode.OpenOrCreate))
+            {
+                xml.Serialize(fs, data);
+            }
+        }
+
+        private ProgramData DeserializeData()
+        {
+            try
+            {
+                using (FileStream fs = new FileStream(FileName, FileMode.Open))
+                {
+                    XmlSerializer xml = new XmlSerializer(typeof(ProgramData));
+                    data = (ProgramData)xml.Deserialize(fs);
+                }
+            }
+            catch (FileNotFoundException)
+            {
+                data = new ProgramData();
+                data.Tariffs = new List<Tariff>();
+                data.Clients = new List<Client>();
+                data.Tariffs.Add(new Tariff("Базовый", 300));
+                data.Tariffs.Add(new Tariff("Продвинутый", 500));
+            }
+            catch (Exception)
+            {
+                MessageBox.Show
+                    ("Ошибка чтения из файла. Если файл существует, но в него не записаны данные о клиентах, удалите файл.");
+            }
+
+            SaveData();
+            RefreshListBox();
+            return data;
         }
     }
 }

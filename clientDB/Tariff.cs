@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace clientDB
 {
@@ -29,5 +30,7 @@ namespace clientDB
             this.name = name;
             this.monthCost = monthCost;
         }
+
+        public Tariff() { }
     }
 }

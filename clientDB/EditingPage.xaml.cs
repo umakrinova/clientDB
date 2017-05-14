@@ -31,7 +31,7 @@ namespace clientDB
             textBoxName.Text = client.Name;
             textBoxPatronymic.Text = client.Patronymic;
             textBoxNumber.Text = client.Number;
-            comboBoxTariffs.SelectedItem = client.Tariff;
+            comboBoxTariffs.Text = client.Tariff.Name;
             this.index = index;
         }
         private void buttonEdit_Click(object sender, RoutedEventArgs e)

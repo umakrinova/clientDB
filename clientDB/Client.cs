@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Xceed.Wpf.Toolkit;
+using System.Xml.Serialization;
 
 namespace clientDB
 {
@@ -48,6 +49,8 @@ namespace clientDB
             this.patronymic = patronymic;
             this.number = number;
         }
+
+        public Client() { }
 
         private Tariff tariff;
 
