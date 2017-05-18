@@ -46,7 +46,7 @@ namespace clientDB
             InitializeComponent();
             data = DeserializeData();
             data.Clients.Add(newClient);
-            SaveData();
+            SerializeData();
             RefreshListBox();
         }
 
@@ -55,7 +55,7 @@ namespace clientDB
             InitializeComponent();
             data = DeserializeData();
             data.Clients[index] = client;
-            SaveData();
+            SerializeData();
             RefreshListBox();
         }
 
@@ -75,7 +75,7 @@ namespace clientDB
             if (listBoxClients.SelectedIndex != -1)
             {
                 data.Clients.RemoveAt(listBoxClients.SelectedIndex);
-                SaveData();
+                SerializeData();
                 RefreshListBox();
             }
         }
@@ -100,7 +100,7 @@ namespace clientDB
             }
         }
 
-        private void SaveData()
+        private void SerializeData()
         {
             XmlSerializer xml = new XmlSerializer(typeof(ProgramData));
             using (FileStream fs = new FileStream(FileName, FileMode.OpenOrCreate))
@@ -130,10 +130,12 @@ namespace clientDB
             catch (Exception)
             {
                 MessageBox.Show
-                    ("Ошибка чтения из файла. Если файл существует, но в него не записаны данные о клиентах, удалите файл.");
+                    ("Ошибка чтения из файла. Если файл "
+                    + FileName + " существует, но в него не записаны данные о клиентах, удалите файл.");
+                System.Diagnostics.Process.GetCurrentProcess().Kill();
             }
 
-            SaveData();
+            SerializeData();
             RefreshListBox();
             return data;
         }

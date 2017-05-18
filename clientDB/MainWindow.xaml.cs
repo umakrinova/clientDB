@@ -22,7 +22,7 @@ namespace clientDB
         public MainWindow()
         {
             InitializeComponent();
-            frameMain.Navigate(new ClientsPage());
+            frameMain.Navigate(new AuthorizationPage());
         }
     }
 }
