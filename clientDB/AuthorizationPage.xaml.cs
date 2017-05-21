@@ -65,6 +65,7 @@ namespace clientDB
                 {
                     if (textBoxLogin.Text == users[i].Login && CalculateHash(passwordBox.Password) == users[i].Password)
                     {
+                        Logger.Instance.Log("Выполнен авторизованный вход");
                         NavigationService.Navigate(new ClientsPage());
                         break;
                     }

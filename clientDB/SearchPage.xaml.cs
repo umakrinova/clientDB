@@ -53,7 +53,7 @@ namespace clientDB
                             (string.IsNullOrWhiteSpace(textBoxName.Text) || textBoxName.Text == clients[i].Name) &&
                             (string.IsNullOrWhiteSpace(textBoxPatronymic.Text) || textBoxPatronymic.Text == clients[i].Patronymic) &&
                             ((!textBoxNumber.IsMaskFull) || textBoxNumber.Text == clients[i].Number) &&
-                            (comboBoxTariffs.Text == null || comboBoxTariffs.Text == clients[i].Tariff.Name))
+                            (comboBoxTariffs.Text == "" || comboBoxTariffs.Text == clients[i].Tariff.Name))
                         {
                             listBoxFoundClients.Items.Add(clients[i]);
                         }

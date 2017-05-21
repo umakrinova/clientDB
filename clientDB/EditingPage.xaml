@@ -41,22 +41,12 @@
         </Style>
     </Page.Resources>
     <Grid>
-        <Button x:Name="buttonEdit"
-                VerticalAlignment="Bottom" Content="Сохранить изменения" HorizontalAlignment="Right" Margin="0,0,10,10" Width="140" Click="buttonEdit_Click"/>
         <TextBox x:Name="textBoxSurname"
                  Style="{StaticResource placeHolder}" Tag="Фамилия" HorizontalAlignment="Left" Height="23" Margin="130,12,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="241"/>
-        <TextBlock x:Name="textBlockSurname"
-                   HorizontalAlignment="Left" Margin="10,13,0,0" TextWrapping="Wrap" Text="Фамилия" VerticalAlignment="Top"/>
-        <TextBlock x:Name="textBlockName"
-                   HorizontalAlignment="Left" Margin="10,41,0,0" TextWrapping="Wrap" Text="Имя" VerticalAlignment="Top"/>
         <TextBox x:Name="textBoxName"
                  Style="{StaticResource placeHolder}" Tag="Имя" HorizontalAlignment="Left" Height="23" Margin="130,40,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="241"/>
-        <TextBlock x:Name="textBlockPatronymic"
-                   HorizontalAlignment="Left" Margin="10,68,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="Отчество"/>
         <TextBox x:Name="textBoxPatronymic"
                  Style="{StaticResource placeHolder}" Tag="Отчество" HorizontalAlignment="Left" Height="23" Margin="130,68,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="241"/>
-        <TextBlock x:Name="textBlockNumber"
-                   HorizontalAlignment="Left" Margin="10,99,0,0" TextWrapping="Wrap" Text="Номер телефона" VerticalAlignment="Top"/>
         <xctk:MaskedTextBox 
         x:Name="textBoxNumber" 
         Mask="+7(000)-000-0000"                                
@@ -67,8 +57,17 @@
         <ComboBox x:Name="comboBoxTariffs" HorizontalAlignment="Left" Margin="130,126,0,0"
                   VerticalAlignment="Top" Width="130" DisplayMemberPath="Name">
         </ComboBox>
+        <TextBlock x:Name="textBlockSurname"
+                   HorizontalAlignment="Left" Margin="10,13,0,0" TextWrapping="Wrap" Text="Фамилия" VerticalAlignment="Top"/>
+        <TextBlock x:Name="textBlockName"
+                   HorizontalAlignment="Left" Margin="10,41,0,0" TextWrapping="Wrap" Text="Имя" VerticalAlignment="Top"/>
+        <TextBlock x:Name="textBlockPatronymic"
+                   HorizontalAlignment="Left" Margin="10,68,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="Отчество"/>
+        <TextBlock x:Name="textBlockNumber"
+                   HorizontalAlignment="Left" Margin="10,99,0,0" TextWrapping="Wrap" Text="Номер телефона" VerticalAlignment="Top"/>
         <TextBlock x:Name="textBlockTariff"
-        	HorizontalAlignment="Left" Margin="10,126,0,0" TextWrapping="Wrap" Text="Тариф" VerticalAlignment="Top"
-                   />
+        	HorizontalAlignment="Left" Margin="10,126,0,0" TextWrapping="Wrap" Text="Тариф" VerticalAlignment="Top"/>
+        <Button x:Name="buttonEdit"
+                VerticalAlignment="Bottom" Content="Сохранить изменения" HorizontalAlignment="Right" Margin="0,0,10,10" Width="140" Click="buttonEdit_Click"/>
     </Grid>
 </Page>

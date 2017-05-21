@@ -59,8 +59,8 @@ namespace clientDB
                 data = new ProgramData();
                 data.Tariffs = new List<Tariff>();
                 data.Clients = new List<Client>();
-                data.Tariffs.Add(new Tariff("Базовый", 300));
-                data.Tariffs.Add(new Tariff("Продвинутый", 500));
+                data.Tariffs.Add(new Tariff(1, "Базовый", 300));
+                data.Tariffs.Add(new Tariff(2, "Продвинутый", 500));
                 Logger.Instance.Log("Не найден файл с данными о клиентах. Созданы 2 тарифа по умолчанию");
             }
             catch (Exception)

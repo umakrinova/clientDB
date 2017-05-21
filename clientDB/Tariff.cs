@@ -25,8 +25,22 @@ namespace clientDB
             set { monthCost = value; }
         }
 
-        public Tariff(string name, double monthCost)
+        private int id;
+
+        public int Id
         {
+            get { return id; }
+            set { id = value; }
+        }
+
+        public Tariff(int id)
+        {
+            this.id = id;
+        }
+
+        public Tariff(int id, string name, double monthCost)
+        {
+            this.id = id;
             this.name = name;
             this.monthCost = monthCost;
         }

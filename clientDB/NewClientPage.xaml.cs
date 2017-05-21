@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Xml.Serialization;
+using System.IO;
 
 namespace clientDB
 {
@@ -20,12 +22,15 @@ namespace clientDB
     /// </summary>
     public partial class NewClientPage : Page
     {
-        public NewClientPage(List<Tariff> tariffs)
+        const string FileName = "clients.xml";
+        ProgramData data;
+        public NewClientPage(List<Tariff> tariffs, ProgramData data)
         {
             try
             {
                 InitializeComponent();
                 comboBoxTariffs.ItemsSource = tariffs;
+                this.data = data;
                 Logger.Instance.Log("Страница NewClientPage открыта успешно");
             }
             catch (Exception)
@@ -80,8 +85,10 @@ namespace clientDB
 
             try
             {
-                newClient = new Client(textBoxSurname.Text, textBoxName.Text, textBoxPatronymic.Text, textBoxNumber.Text);
-                newClient.Tariff = comboBoxTariffs.SelectedItem as Tariff;
+                newClient = new Client(textBoxSurname.Text, textBoxName.Text, textBoxPatronymic.Text, textBoxNumber.Text, 
+                    (Tariff)comboBoxTariffs.SelectedItem);
+                data.Clients.Add(newClient);
+                SerializeData();
                 Logger.Instance.Log("Создание клиента прошло успешно");
             }
             catch (Exception)
@@ -91,7 +98,7 @@ namespace clientDB
             try
             {
                 Logger.Instance.Log("Совершен переход на страницу ClientsPage");
-                NavigationService.Navigate(new ClientsPage(newClient));
+                NavigationService.Navigate(new ClientsPage());
             }
             catch (Exception)
             {
@@ -109,6 +116,23 @@ namespace clientDB
             catch (Exception)
             {
                 Logger.Instance.Log("Переход на страницу ClientsPage завершился с ошибкой");
+            }
+        }
+
+        private void SerializeData()
+        {
+            try
+            {
+                XmlSerializer xml = new XmlSerializer(typeof(ProgramData));
+                using (FileStream fs = new FileStream(FileName, FileMode.OpenOrCreate))
+                {
+                    xml.Serialize(fs, data);
+                }
+                Logger.Instance.Log("Данные записаны в файл " + FileName);
+            }
+            catch (Exception)
+            {
+                Logger.Instance.Log("Ошибка записи в файл " + FileName);
             }
         }
     }

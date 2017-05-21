@@ -23,11 +23,10 @@ namespace clientDB
     public partial class ClientsPage : Page
     {
         const string FileName = "clients.xml";
-        ProgramData data;
+        ProgramData data = new ProgramData();
 
         public ClientsPage()
         {
-            Logger.Instance.Log("Выполнен авторизованный вход");
             try
             {
                 InitializeComponent();
@@ -41,41 +40,6 @@ namespace clientDB
                     + FileName + " существует, но в него не записаны данные о клиентах, удалите файл.");
                 Logger.Instance.Log("Открытие страницы ClientsPage завершилось с ошибкой: произошла ошибка чтения из файла");
                 System.Diagnostics.Process.GetCurrentProcess().Kill();
-            }
-        }
-
-        public ClientsPage(Client newClient)
-        {
-            try
-            {
-                InitializeComponent();
-                data = DeserializeData();
-                data.Clients.Add(newClient);
-                Logger.Instance.Log("Добавлен новый клиент");
-                SerializeData();
-                RefreshListBox();
-                Logger.Instance.Log("Страница ClientsPage открыта успешно");
-            }
-            catch (Exception)
-            {
-                Logger.Instance.Log("Открытие страницы ClientsPage завершилось с ошибкой");
-            }
-        }
-
-        public ClientsPage(Client client, int index)
-        {
-            try
-            {
-                InitializeComponent();
-                data = DeserializeData();
-                data.Clients[index] = client;
-                SerializeData();
-                RefreshListBox();
-                Logger.Instance.Log("Страница ClientsPage открыта успешно");
-            }
-            catch (Exception)
-            {
-                Logger.Instance.Log("Открытие страницы ClientsPage завершилось с ошибкой");
             }
         }
 
@@ -98,7 +62,7 @@ namespace clientDB
             try
             {
                 Logger.Instance.Log("Совершен переход на страницу NewClientPage");
-                NavigationService.Navigate(new NewClientPage(data.Tariffs));
+                NavigationService.Navigate(new NewClientPage(data.Tariffs, data));
             }
             catch (Exception)
             {
@@ -151,7 +115,7 @@ namespace clientDB
                 {
                     Logger.Instance.Log("Совершен переход на страницу EditingPage");
                     NavigationService.Navigate(new EditingPage((Client)listBoxClients.SelectedItem,
-                        listBoxClients.SelectedIndex, data.Tariffs));
+                        listBoxClients.SelectedIndex, data));
                 }
             }
             catch (Exception)
@@ -186,15 +150,25 @@ namespace clientDB
                     XmlSerializer xml = new XmlSerializer(typeof(ProgramData));
                     data = (ProgramData)xml.Deserialize(fs);
                 }
+
+                foreach (var client in data.Clients)
+                {
+                    int i = 0;
+                    while (i < data.Tariffs.Count && data.Tariffs[i].Id != client.TariffId)
+                        i++;
+                    if (i < data.Tariffs.Count)
+                        client.Tariff = data.Tariffs[i];
+                }
+
                 Logger.Instance.Log("Данные считаны из файла " + FileName);
             }
             catch (FileNotFoundException)
             {
-                data = new ProgramData();
+                //data = new ProgramData();
                 data.Tariffs = new List<Tariff>();
                 data.Clients = new List<Client>();
-                data.Tariffs.Add(new Tariff("Базовый", 300));
-                data.Tariffs.Add(new Tariff("Продвинутый", 500));
+                data.Tariffs.Add(new Tariff(1, "Базовый", 300));
+                data.Tariffs.Add(new Tariff(2, "Продвинутый", 500));
                 Logger.Instance.Log("Не найден файл с данными о клиентах. Созданы 2 тарифа по умолчанию");
             }
             catch (Exception)

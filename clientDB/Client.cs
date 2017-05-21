@@ -42,31 +42,57 @@ namespace clientDB
             set { number = value; }
         }
 
-        public Client(string surname, string name, string patronymic, string number)
+        public Client(string surname, string name, string patronymic, string number, Tariff tariff)
         {
             this.surname = surname;
             this.name = name;
             this.patronymic = patronymic;
             this.number = number;
+            if (tariff != null)
+            {
+                tariffId = tariff.Id;
+            }
+            else
+            {
+                tariffId = 1;
+            }
         }
 
         public Client() { }
 
         private Tariff tariff;
 
+        [XmlIgnore]
         public Tariff Tariff
         {
             get { return tariff; }
             set { tariff = value; }
         }
 
+        private int tariffId;
+
+        public int TariffId
+        {
+            get { return tariffId; }
+            set { tariffId = value; }
+        }
 
         public string Info
         {
             get
             {
-                return $"{surname} {name} {patronymic}  {number}   {tariff.Name}   {tariff.MonthCost}";
+                try
+                {
+                    return $"{surname} {name} {patronymic}  {number}   {tariff.Name}   {tariff.MonthCost}";
+                }
+                catch (Exception)
+                {
+                MessageBox.Show
+                    ("Ошибка формирования информационной строки о пользователе. Возможно, для него не были определены некоторые поля");
+                Logger.Instance.Log("Ошибка формирования информационной строки о пользователе");
+                return null;
             }
+        }
         }
     }
 }

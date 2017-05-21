@@ -64,10 +64,31 @@ namespace clientDB
         {
             try
             {
-                newUser = new User(textBoxLogin.Text, CalculateHash(passwordBox.Password));
-                users.Add(newUser);
-                SerializeData();
-                NavigationService.Navigate(new AuthorizationPage());
+                bool correct = true;
+
+                if (string.IsNullOrWhiteSpace(textBoxLogin.Text) || string.IsNullOrWhiteSpace(passwordBox.Password))
+                {
+                    correct = false;
+                    MessageBox.Show("Необходимо ввести логин и пароль", "Ошибка создания нового пользователя");
+                }
+
+                foreach (var user in users)
+                {
+                    if (textBoxLogin.Text == user.Login)
+                    {
+                        correct = false;
+                        MessageBox.Show("Данный логин уже используется", "Ошибка создания нового пользователя");
+                        break;
+                    }
+                }
+
+                if (correct == true)
+                {
+                    newUser = new User(textBoxLogin.Text, CalculateHash(passwordBox.Password));
+                    users.Add(newUser);
+                    SerializeData();
+                    NavigationService.Navigate(new AuthorizationPage());
+                }
             }
             catch (Exception)
             {
