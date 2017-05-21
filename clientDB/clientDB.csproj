@@ -88,6 +88,7 @@
     <Compile Include="EditingPage.xaml.cs">
       <DependentUpon>EditingPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Logger.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>

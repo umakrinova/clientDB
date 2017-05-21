@@ -23,9 +23,17 @@ namespace clientDB
         List<Client> clients = new List<Client>();
         public SearchPage(List<Client> clients, List<Tariff> tariffs)
         {
-            InitializeComponent();
-            comboBoxTariffs.ItemsSource = tariffs;
-            this.clients = clients;
+            try
+            {
+                InitializeComponent();
+                comboBoxTariffs.ItemsSource = tariffs;
+                this.clients = clients;
+                Logger.Instance.Log("Страница SearchPage открыта успешно");
+            }
+            catch (Exception)
+            {
+                Logger.Instance.Log("Открытие страницы SearchPage завершилось с ошибкой");
+            }
         }
 
         private void buttonSearch_Click(object sender, RoutedEventArgs e)
@@ -33,20 +41,28 @@ namespace clientDB
             listBoxFoundClients.Items.Clear();
             if ((!textBoxNumber.IsMaskFull) && (textBoxNumber.Text != "+7(___)-___-____"))
             {
-                MessageBox.Show("Необходимо ввести полный номер или не вводить никакой.");
+                MessageBox.Show("Номер телефона введён некорректно.");
             }
             else
             {
-                for (int i = 0; i < clients.Count; i++)
+                try
                 {
-                    if ((string.IsNullOrWhiteSpace(textBoxSurname.Text) || textBoxSurname.Text == clients[i].Surname) &&
-                        (string.IsNullOrWhiteSpace(textBoxName.Text) || textBoxName.Text == clients[i].Name) &&
-                        (string.IsNullOrWhiteSpace(textBoxPatronymic.Text) || textBoxPatronymic.Text == clients[i].Patronymic) &&
-                        ((!textBoxNumber.IsMaskFull) || textBoxNumber.Text == clients[i].Number) &&
-                        (comboBoxTariffs.Text == null || comboBoxTariffs.Text == clients[i].Tariff.Name))
+                    for (int i = 0; i < clients.Count; i++)
                     {
-                        listBoxFoundClients.Items.Add(clients[i]);
+                        if ((string.IsNullOrWhiteSpace(textBoxSurname.Text) || textBoxSurname.Text == clients[i].Surname) &&
+                            (string.IsNullOrWhiteSpace(textBoxName.Text) || textBoxName.Text == clients[i].Name) &&
+                            (string.IsNullOrWhiteSpace(textBoxPatronymic.Text) || textBoxPatronymic.Text == clients[i].Patronymic) &&
+                            ((!textBoxNumber.IsMaskFull) || textBoxNumber.Text == clients[i].Number) &&
+                            (comboBoxTariffs.Text == null || comboBoxTariffs.Text == clients[i].Tariff.Name))
+                        {
+                            listBoxFoundClients.Items.Add(clients[i]);
+                        }
                     }
+                    Logger.Instance.Log("Поиск клиентов выполнен успешно");
+                }
+                catch (Exception)
+                {
+                    Logger.Instance.Log("Произошла ошибка при поиске клиентов");
                 }
             }
             textBoxSurname.Text = "";
@@ -58,7 +74,15 @@ namespace clientDB
 
         private void buttonBack_Click(object sender, RoutedEventArgs e)
         {
-            NavigationService.Navigate(new ClientsPage());
+            try
+            {
+                Logger.Instance.Log("Совершен переход на страницу ClientsPage");
+                NavigationService.Navigate(new ClientsPage());
+            }
+            catch (Exception)
+            {
+                Logger.Instance.Log("Переход на страницу ClientsPage завершился с ошибкой");
+            }
         }
     }
 }

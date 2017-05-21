@@ -27,38 +27,62 @@ namespace clientDB
         List<User> users = new List<User>();
         public AuthorizationPage()
         {
-            InitializeComponent();
-            textBoxLogin.Text = "";
-            passwordBox.Password = "";
-            users = DeserializeData();
-            textBoxLogin.Focus();
+            try
+            {
+                InitializeComponent();
+                textBoxLogin.Text = "";
+                passwordBox.Password = "";
+                users = DeserializeData();
+                textBoxLogin.Focus();
+                Logger.Instance.Log("Страница AuthorizationPage открыта успешно");
+            }
+            catch (Exception)
+            {
+                Logger.Instance.Log("Открытие страницы AuthorizationPage завершилось с ошибкой");
+            }
         }
 
         private string CalculateHash(string password)
         {
-            MD5 md5 = MD5.Create();
-            var hash = md5.ComputeHash(Encoding.ASCII.GetBytes(password));
-            return Convert.ToBase64String(hash);
+            try
+            {
+                MD5 md5 = MD5.Create();
+                var hash = md5.ComputeHash(Encoding.ASCII.GetBytes(password));
+                return Convert.ToBase64String(hash);
+            }
+            catch (Exception)
+            {
+                Logger.Instance.Log("Ошибка при вычислении хэш-функции");
+                throw;
+            }
         }
 
         private void buttonLogIn_Click(object sender, RoutedEventArgs e)
         {
-            for (int i = 0; i < users.Count; i++)
+            try
             {
-                if (textBoxLogin.Text == users[i].Login && CalculateHash(passwordBox.Password) == users[i].Password)
+                for (int i = 0; i < users.Count; i++)
                 {
-                    NavigationService.Navigate(new ClientsPage());
-                    break;
-                }
-                else
-                {
-                    if (i == users.Count - 1)
+                    if (textBoxLogin.Text == users[i].Login && CalculateHash(passwordBox.Password) == users[i].Password)
                     {
-                        MessageBox.Show("Неверный логин или пароль");
-                        textBoxLogin.Text = "";
-                        passwordBox.Password = "";
+                        NavigationService.Navigate(new ClientsPage());
+                        break;
                     }
-                }          
+                    else
+                    {
+                        if (i == users.Count - 1)
+                        {
+                            MessageBox.Show("Неверный логин или пароль");
+                            textBoxLogin.Text = "";
+                            passwordBox.Password = "";
+                            Logger.Instance.Log("Не удалось совершить авторизацию: неверный логин или пароль");
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                Logger.Instance.Log("Не удалось совершить авторизацию");
             }
         }
 
@@ -76,6 +100,7 @@ namespace clientDB
                     XmlSerializer xml = new XmlSerializer(typeof(List<User>));
                     users = (List<User>)xml.Deserialize(fs);
                 }
+                Logger.Instance.Log("Данные о пользователях загружены из файла " + FileName);
             }
             catch (FileNotFoundException)
             {
@@ -85,7 +110,8 @@ namespace clientDB
             {
                 MessageBox.Show
                     ("Ошибка чтения из файла. Если файл "
-                    + FileName + " существует, но в него не записаны данные о клиентах, удалите файл.");
+                    + FileName + " существует, но в него не записаны данные о пользователях, удалите файл.");
+                Logger.Instance.Log("Ошибка чтения из файла " + FileName);
                 System.Diagnostics.Process.GetCurrentProcess().Kill();
             }
             return users;

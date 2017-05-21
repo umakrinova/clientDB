@@ -21,13 +21,32 @@ namespace clientDB
     {
         public MainWindow()
         {
+            Logger.Instance.Log("ПРОГРАММА ЗАПУЩЕНА");
             InitializeComponent();
-            frameMain.Navigate(new AuthorizationPage());
+            try
+            {
+                Logger.Instance.Log("Совершен переход на страницу AuthorizationPage");
+                frameMain.Navigate(new AuthorizationPage());
+            }
+            catch (Exception)
+            {
+                Logger.Instance.Log("Переход на страницу AuthorizationPage завершился с ошибкой");
+                throw;
+            }
         }
 
         private void buttonChangeUser_Click(object sender, RoutedEventArgs e)
         {
-            frameMain.Navigate(new AuthorizationPage());
+            try
+            {
+                Logger.Instance.Log("Совершен переход на страницу AuthorizationPage");
+                frameMain.Navigate(new AuthorizationPage());
+            }
+            catch (Exception)
+            {
+                Logger.Instance.Log("Переход на страницу AuthorizationPage завершился с ошибкой");
+                throw;
+            }
         }
     }
 }

@@ -29,31 +29,67 @@ namespace clientDB
 
         public SigningUpPage()
         {
-            InitializeComponent();
-            users = DeserializeData();
+            try
+            {
+                InitializeComponent();
+                users = DeserializeData();
+                Logger.Instance.Log("Страница SigningUpPage открыта успешно");
+            }
+            catch (Exception)
+            {
+                MessageBox.Show
+                    ("Ошибка чтения из файла. Если файл "
+                    + FileName + " существует, но в него не записаны данные о пользователях, удалите файл.");
+                Logger.Instance.Log("Открытие страницы SigningUpPage завершилось с ошибкой: произошла ошибка чтения из файла");
+                System.Diagnostics.Process.GetCurrentProcess().Kill();
+            }
         }
 
         private string CalculateHash(string password)
         {
-            MD5 md5 = MD5.Create();
-            var hash = md5.ComputeHash(Encoding.ASCII.GetBytes(password));
-            return Convert.ToBase64String(hash);
+            try
+            {
+                MD5 md5 = MD5.Create();
+                var hash = md5.ComputeHash(Encoding.ASCII.GetBytes(password));
+                return Convert.ToBase64String(hash);
+            }
+            catch (Exception)
+            {
+                Logger.Instance.Log("Ошибка при вычислении хэш-функции");
+                throw;
+            }
         }
 
         private void buttonSignUp_Click(object sender, RoutedEventArgs e)
         {
-            newUser = new User(textBoxLogin.Text, CalculateHash(passwordBox.Password));
-            users.Add(newUser);
-            SerializeData();
-            NavigationService.Navigate(new AuthorizationPage());
+            try
+            {
+                newUser = new User(textBoxLogin.Text, CalculateHash(passwordBox.Password));
+                users.Add(newUser);
+                SerializeData();
+                NavigationService.Navigate(new AuthorizationPage());
+            }
+            catch (Exception)
+            {
+                Logger.Instance.Log("Не удалось создать нового пользователя");
+                throw;
+            }
         }
 
         private void SerializeData()
         {
-            XmlSerializer xml = new XmlSerializer(typeof(List<User>));
-            using (FileStream fs = new FileStream(FileName, FileMode.OpenOrCreate))
+            try
             {
-                xml.Serialize(fs, users);
+                XmlSerializer xml = new XmlSerializer(typeof(List<User>));
+                using (FileStream fs = new FileStream(FileName, FileMode.OpenOrCreate))
+                {
+                    xml.Serialize(fs, users);
+                }
+                Logger.Instance.Log("Данные записаны в файл " + FileName);
+            }
+            catch (Exception)
+            {
+                Logger.Instance.Log("Ошибка записи в файл " + FileName);
             }
         }
 
@@ -66,6 +102,7 @@ namespace clientDB
                     XmlSerializer xml = new XmlSerializer(typeof(List<User>));
                     users = (List<User>)xml.Deserialize(fs);
                 }
+                Logger.Instance.Log("Данные считаны из файла " + FileName);
             }
             catch (FileNotFoundException)
             {
@@ -76,6 +113,7 @@ namespace clientDB
                 MessageBox.Show
                     ("Ошибка чтения из файла. Если файл "
                     + FileName + " существует, но в него не записаны данные о клиентах, удалите файл.");
+                Logger.Instance.Log("Считывание данных из файла " + FileName + " завершилось с ошибкой");
                 System.Diagnostics.Process.GetCurrentProcess().Kill();
             }
             return users;

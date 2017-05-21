@@ -22,8 +22,16 @@ namespace clientDB
     {
         public NewClientPage(List<Tariff> tariffs)
         {
-            InitializeComponent();
-            comboBoxTariffs.ItemsSource = tariffs;
+            try
+            {
+                InitializeComponent();
+                comboBoxTariffs.ItemsSource = tariffs;
+                Logger.Instance.Log("Страница NewClientPage открыта успешно");
+            }
+            catch (Exception)
+            {
+                Logger.Instance.Log("Открытие страницы NewClientPage завершилось с ошибкой");
+            }
         }
 
         Client newClient;
@@ -63,21 +71,45 @@ namespace clientDB
                 return;
             }
 
-            //if (comboBoxTariffs.SelectedItem == null)
-            //{
-            //    MessageBox.Show("Необходимо выбрать тариф.", "Ошибка добавления");
-            //    comboBoxTariffs.Focus();
-            //    return;
-            //}
+            if (comboBoxTariffs.SelectedItem == null)
+            {
+                MessageBox.Show("Необходимо выбрать тариф.", "Ошибка добавления");
+                comboBoxTariffs.Focus();
+                return;
+            }
 
-            newClient = new Client(textBoxSurname.Text, textBoxName.Text, textBoxPatronymic.Text, textBoxNumber.Text);
-            newClient.Tariff = comboBoxTariffs.SelectedItem as Tariff;
-            NavigationService.Navigate(new ClientsPage(newClient));
+            try
+            {
+                newClient = new Client(textBoxSurname.Text, textBoxName.Text, textBoxPatronymic.Text, textBoxNumber.Text);
+                newClient.Tariff = comboBoxTariffs.SelectedItem as Tariff;
+                Logger.Instance.Log("Создание клиента прошло успешно");
+            }
+            catch (Exception)
+            {
+                Logger.Instance.Log("Ошибка при создании клиента");
+            }
+            try
+            {
+                Logger.Instance.Log("Совершен переход на страницу ClientsPage");
+                NavigationService.Navigate(new ClientsPage(newClient));
+            }
+            catch (Exception)
+            {
+                Logger.Instance.Log("Переход на страницу ClientsPage завершился с ошибкой");
+            }
         }
 
         private void buttonBack_Click(object sender, RoutedEventArgs e)
         {
-            NavigationService.Navigate(new ClientsPage());
+            try
+            {
+                Logger.Instance.Log("Совершен переход на страницу ClientsPage");
+                NavigationService.Navigate(new ClientsPage());
+            }
+            catch (Exception)
+            {
+                Logger.Instance.Log("Переход на страницу ClientsPage завершился с ошибкой");
+            }
         }
     }
 }

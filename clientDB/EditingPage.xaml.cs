@@ -25,14 +25,22 @@ namespace clientDB
 
         public EditingPage(Client client, int index, List<Tariff> tariffs)
         {
-            InitializeComponent();
-            comboBoxTariffs.ItemsSource = tariffs;
-            textBoxSurname.Text = client.Surname;
-            textBoxName.Text = client.Name;
-            textBoxPatronymic.Text = client.Patronymic;
-            textBoxNumber.Text = client.Number;
-            comboBoxTariffs.Text = client.Tariff.Name;
-            this.index = index;
+            try
+            {
+                InitializeComponent();
+                comboBoxTariffs.ItemsSource = tariffs;
+                textBoxSurname.Text = client.Surname;
+                textBoxName.Text = client.Name;
+                textBoxPatronymic.Text = client.Patronymic;
+                textBoxNumber.Text = client.Number;
+                comboBoxTariffs.Text = client.Tariff.Name;
+                this.index = index;
+                Logger.Instance.Log("Страница EditingPage открыта успешно");
+            }
+            catch (Exception)
+            {
+                Logger.Instance.Log("Открытие страницы EditingPage завершилось с ошибкой");
+            }
         }
         private void buttonEdit_Click(object sender, RoutedEventArgs e)
         {
@@ -70,9 +78,25 @@ namespace clientDB
                 return;
             }
 
-            client = new Client(textBoxSurname.Text, textBoxName.Text, textBoxPatronymic.Text, textBoxNumber.Text);
-            client.Tariff = comboBoxTariffs.SelectedItem as Tariff;
-            NavigationService.Navigate(new ClientsPage(client, index));
+            try
+            {
+                client = new Client(textBoxSurname.Text, textBoxName.Text, textBoxPatronymic.Text, textBoxNumber.Text);
+                client.Tariff = comboBoxTariffs.SelectedItem as Tariff;
+                Logger.Instance.Log("Изменение полей клиента прошло успешно");
+            }
+            catch (Exception)
+            {
+                Logger.Instance.Log("Ошибка при изменении полей клиента");
+            }
+            try
+            {
+                Logger.Instance.Log("Совершен переход на страницу ClientsPage");
+                NavigationService.Navigate(new ClientsPage(client, index));
+            }
+            catch (Exception)
+            {
+                Logger.Instance.Log("Переход на страницу ClientsPage завершился с ошибкой");
+            }
         }
     }
 }

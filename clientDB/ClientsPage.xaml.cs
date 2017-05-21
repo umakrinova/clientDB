@@ -27,56 +27,100 @@ namespace clientDB
 
         public ClientsPage()
         {
-            InitializeComponent();
+            Logger.Instance.Log("Выполнен авторизованный вход");
             try
             {
+                InitializeComponent();
                 data = DeserializeData();
+                Logger.Instance.Log("Страница ClientsPage открыта успешно");
             }
-            catch
+            catch(Exception)
             {
                 MessageBox.Show
                     ("Ошибка чтения из файла. Если файл "
                     + FileName + " существует, но в него не записаны данные о клиентах, удалите файл.");
+                Logger.Instance.Log("Открытие страницы ClientsPage завершилось с ошибкой: произошла ошибка чтения из файла");
                 System.Diagnostics.Process.GetCurrentProcess().Kill();
             }
         }
 
         public ClientsPage(Client newClient)
         {
-            InitializeComponent();
-            data = DeserializeData();
-            data.Clients.Add(newClient);
-            SerializeData();
-            RefreshListBox();
+            try
+            {
+                InitializeComponent();
+                data = DeserializeData();
+                data.Clients.Add(newClient);
+                Logger.Instance.Log("Добавлен новый клиент");
+                SerializeData();
+                RefreshListBox();
+                Logger.Instance.Log("Страница ClientsPage открыта успешно");
+            }
+            catch (Exception)
+            {
+                Logger.Instance.Log("Открытие страницы ClientsPage завершилось с ошибкой");
+            }
         }
 
         public ClientsPage(Client client, int index)
         {
-            InitializeComponent();
-            data = DeserializeData();
-            data.Clients[index] = client;
-            SerializeData();
-            RefreshListBox();
+            try
+            {
+                InitializeComponent();
+                data = DeserializeData();
+                data.Clients[index] = client;
+                SerializeData();
+                RefreshListBox();
+                Logger.Instance.Log("Страница ClientsPage открыта успешно");
+            }
+            catch (Exception)
+            {
+                Logger.Instance.Log("Открытие страницы ClientsPage завершилось с ошибкой");
+            }
         }
 
         private void RefreshListBox()
         {
-            listBoxClients.ItemsSource = null;
-            listBoxClients.ItemsSource = data.Clients;
+            try
+            {
+                listBoxClients.ItemsSource = null;
+                listBoxClients.ItemsSource = data.Clients;
+                Logger.Instance.Log("Список клиентов, отображающихся на ClientsPage, был обновлён");
+            }
+            catch (Exception)
+            {
+                Logger.Instance.Log("Обновление списка клиентов, отображающихся на ClientsPage, завершилось с ошибкой");
+            }
         }
 
         private void buttonAdd_Click(object sender, RoutedEventArgs e)
         {
-            NavigationService.Navigate(new NewClientPage(data.Tariffs));
+            try
+            {
+                Logger.Instance.Log("Совершен переход на страницу NewClientPage");
+                NavigationService.Navigate(new NewClientPage(data.Tariffs));
+            }
+            catch (Exception)
+            {
+                Logger.Instance.Log("Переход на страницу NewClientPage завершился с ошибкой");
+            }
         }
 
         private void buttonRemove_Click(object sender, RoutedEventArgs e)
         {
-            if (listBoxClients.SelectedIndex != -1)
+            try
             {
-                data.Clients.RemoveAt(listBoxClients.SelectedIndex);
-                SerializeData();
-                RefreshListBox();
+                if (listBoxClients.SelectedIndex != -1)
+                {
+                    data.Clients.RemoveAt(listBoxClients.SelectedIndex);
+                    SerializeData();
+                    RefreshListBox();
+                }
+                Logger.Instance.Log("Клиент был удалён");
+            }
+            catch (Exception)
+            {
+                Logger.Instance.Log("Удаление клиента завершилось с ошибкой");
             }
         }
 
@@ -88,24 +132,48 @@ namespace clientDB
 
         private void buttonSearch_Click(object sender, RoutedEventArgs e)
         {
-            NavigationService.Navigate(new SearchPage(data.Clients, data.Tariffs));    
+            try
+            {
+                Logger.Instance.Log("Совершен переход на страницу SearchPage");
+                NavigationService.Navigate(new SearchPage(data.Clients, data.Tariffs));
+            }
+            catch (Exception)
+            {
+                Logger.Instance.Log("Переход на страницу SearchPage завершился с ошибкой");
+            }    
         }
 
         private void buttonEdit_Click(object sender, RoutedEventArgs e)
         {
-            if (listBoxClients.SelectedIndex != -1)
+            try
             {
-                NavigationService.Navigate(new EditingPage((Client) listBoxClients.SelectedItem, 
-                    listBoxClients.SelectedIndex, data.Tariffs));               
+                if (listBoxClients.SelectedIndex != -1)
+                {
+                    Logger.Instance.Log("Совершен переход на страницу EditingPage");
+                    NavigationService.Navigate(new EditingPage((Client)listBoxClients.SelectedItem,
+                        listBoxClients.SelectedIndex, data.Tariffs));
+                }
+            }
+            catch (Exception)
+            {
+                Logger.Instance.Log("Переход на страницу EditingPage завершился с ошибкой");
             }
         }
 
         private void SerializeData()
         {
-            XmlSerializer xml = new XmlSerializer(typeof(ProgramData));
-            using (FileStream fs = new FileStream(FileName, FileMode.OpenOrCreate))
+            try
             {
-                xml.Serialize(fs, data);
+                XmlSerializer xml = new XmlSerializer(typeof(ProgramData));
+                using (FileStream fs = new FileStream(FileName, FileMode.OpenOrCreate))
+                {
+                    xml.Serialize(fs, data);
+                }
+                Logger.Instance.Log("Данные записаны в файл " + FileName);
+            }
+            catch (Exception)
+            {
+                Logger.Instance.Log("Ошибка записи в файл " + FileName);
             }
         }
 
@@ -118,6 +186,7 @@ namespace clientDB
                     XmlSerializer xml = new XmlSerializer(typeof(ProgramData));
                     data = (ProgramData)xml.Deserialize(fs);
                 }
+                Logger.Instance.Log("Данные считаны из файла " + FileName);
             }
             catch (FileNotFoundException)
             {
@@ -126,12 +195,14 @@ namespace clientDB
                 data.Clients = new List<Client>();
                 data.Tariffs.Add(new Tariff("Базовый", 300));
                 data.Tariffs.Add(new Tariff("Продвинутый", 500));
+                Logger.Instance.Log("Не найден файл с данными о клиентах. Созданы 2 тарифа по умолчанию");
             }
             catch (Exception)
             {
                 MessageBox.Show
                     ("Ошибка чтения из файла. Если файл "
                     + FileName + " существует, но в него не записаны данные о клиентах, удалите файл.");
+                Logger.Instance.Log("Считывание данных из файла " + FileName + " завершилось с ошибкой");
                 System.Diagnostics.Process.GetCurrentProcess().Kill();
             }
             RefreshListBox();
