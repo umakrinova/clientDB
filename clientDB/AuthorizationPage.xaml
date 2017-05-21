@@ -16,7 +16,7 @@
         <Button x:Name="buttonLogIn" Content="Войти" HorizontalAlignment="Center" Margin="44,89,46,0" VerticalAlignment="Top" Width="210" Grid.ColumnSpan="2" Height="20" Click="buttonLogIn_Click"/>
         <PasswordBox x:Name="passwordBox" Margin="44,59,46,0" VerticalAlignment="Top" Height="25" HorizontalAlignment="Center" Width="210" Grid.ColumnSpan="2"/>
         <TextBox x:Name="textBoxLogin" HorizontalAlignment="Center" Height="23" Margin="44,31,46,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="210" Grid.ColumnSpan="2"/>
-        <Button x:Name="buttonReadOnly" Content="Войти без авторизации" HorizontalAlignment="Center" Margin="44,212,46,0" VerticalAlignment="Top" Width="210" Grid.ColumnSpan="2" Height="20"/>
+        <Button x:Name="buttonReadOnly" Content="Войти без авторизации" HorizontalAlignment="Center" Margin="44,212,46,0" VerticalAlignment="Top" Width="210" Grid.ColumnSpan="2" Height="20" Click="buttonReadOnly_Click"/>
         <TextBlock x:Name="textBlockHat" HorizontalAlignment="Center" Margin="117,10,117,0" TextWrapping="Wrap" Text="чё написать" VerticalAlignment="Top" Grid.ColumnSpan="2" Height="16" Width="66"/>
         <TextBlock x:Name="textBlockInfo" HorizontalAlignment="Center" Margin="44,237,46,0" TextWrapping="Wrap" 
                    Text="При входе без авторизации данные будут доступны только для чтения." VerticalAlignment="Top" Grid.ColumnSpan="2" Width="210"/>

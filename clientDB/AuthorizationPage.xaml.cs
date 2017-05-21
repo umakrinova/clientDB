@@ -90,5 +90,10 @@ namespace clientDB
             }
             return users;
         }
+
+        private void buttonReadOnly_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new ReadOnlyClientsPage());
+        }
     }
 }

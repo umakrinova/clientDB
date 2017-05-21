@@ -134,8 +134,6 @@ namespace clientDB
                     + FileName + " существует, но в него не записаны данные о клиентах, удалите файл.");
                 System.Diagnostics.Process.GetCurrentProcess().Kill();
             }
-
-            SerializeData();
             RefreshListBox();
             return data;
         }

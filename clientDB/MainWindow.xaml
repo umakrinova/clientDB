@@ -5,10 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:clientDB"
         mc:Ignorable="d"
-        Title="Клиентская база данных" Height="350" Width="400">
+        Title="Клиентская база данных" Height="380" Width="400">
     <Grid>
-        <Frame Name="frameMain" NavigationUIVisibility="Hidden">
+        <Frame Name="frameMain" NavigationUIVisibility="Hidden" Grid.ColumnSpan="2">
 
         </Frame>
+        <Button x:Name="buttonChangeUser" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10, 0, 0, 10" Width="25" Height="25" Click="buttonChangeUser_Click" RenderTransformOrigin="0,0.057">
+            <Image x:Name="imageHome" Source="/Images/home.png" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
+        </Button>
     </Grid>
 </Window>

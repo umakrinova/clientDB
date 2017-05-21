@@ -10,13 +10,13 @@
 
     <Grid>
         <ListBox x:Name="listBoxClients" DisplayMemberPath="Info" Margin="10,10,10,45" SelectionChanged="listBoxClients_SelectionChanged"/>
-        <Button x:Name="buttonAdd" Content="Добавить" HorizontalAlignment="Left"
-                Margin="10,0,0,10" VerticalAlignment="Bottom" Width="75" Click="buttonAdd_Click"/>
-        <Button x:Name="buttonRemove" Content="Удалить" HorizontalAlignment="Left"
-                Margin="90,0,0,10" VerticalAlignment="Bottom" Width="75" Click="buttonRemove_Click" IsEnabled="False"/>
+        <Button x:Name="buttonAdd" Content="Добавить" HorizontalAlignment="Right"
+                Margin="0,0,254,10" VerticalAlignment="Bottom" Width="75" Click="buttonAdd_Click"/>
+        <Button x:Name="buttonRemove" Content="Удалить" HorizontalAlignment="Right"
+                Margin="0,0,191,10" VerticalAlignment="Bottom" Width="58" Click="buttonRemove_Click" IsEnabled="False"/>
         <Button x:Name="buttonSearch" Content="Поиск" HorizontalAlignment="Right" 
                 Margin="0,0,10,10" VerticalAlignment="Bottom" Width="75" Click="buttonSearch_Click"/>
-        <Button x:Name="buttonEdit" Content="Редактировать" HorizontalAlignment="Left"
-                Margin="170,0,0,10" VerticalAlignment="Bottom" Width="96" Click="buttonEdit_Click" IsEnabled="False"/>
+        <Button x:Name="buttonEdit" Content="Редактировать" HorizontalAlignment="Right"
+                Margin="0,0,90,10" VerticalAlignment="Bottom" Width="96" Click="buttonEdit_Click" IsEnabled="False"/>
     </Grid>
 </Page>

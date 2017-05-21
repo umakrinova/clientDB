@@ -24,5 +24,10 @@ namespace clientDB
             InitializeComponent();
             frameMain.Navigate(new AuthorizationPage());
         }
+
+        private void buttonChangeUser_Click(object sender, RoutedEventArgs e)
+        {
+            frameMain.Navigate(new AuthorizationPage());
+        }
     }
 }

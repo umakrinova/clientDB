@@ -42,7 +42,7 @@
     </Page.Resources>
     <Grid>
         <Button x:Name="buttonEdit"
-                VerticalAlignment="Bottom" Content="Сохранить изменения" HorizontalAlignment="Left" Margin="10, 0, 0, 10" Width="140" Click="buttonEdit_Click"/>
+                VerticalAlignment="Bottom" Content="Сохранить изменения" HorizontalAlignment="Right" Margin="0,0,10,10" Width="140" Click="buttonEdit_Click"/>
         <TextBox x:Name="textBoxSurname"
                  Style="{StaticResource placeHolder}" Tag="Фамилия" HorizontalAlignment="Left" Height="23" Margin="130,12,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="241"/>
         <TextBlock x:Name="textBlockSurname"
