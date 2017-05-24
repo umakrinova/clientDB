@@ -52,6 +52,14 @@ namespace clientDB
                     XmlSerializer xml = new XmlSerializer(typeof(ProgramData));
                     data = (ProgramData)xml.Deserialize(fs);
                 }
+                foreach (var client in data.Clients)
+                {
+                    int i = 0;
+                    while (i < data.Tariffs.Count && data.Tariffs[i].Id != client.TariffId)
+                        i++;
+                    if (i < data.Tariffs.Count)
+                        client.Tariff = data.Tariffs[i];
+                }
                 Logger.Instance.Log("Данные считаны из файла " + FileName);
             }
             catch (FileNotFoundException)

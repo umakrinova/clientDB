@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Xml.Serialization;
 using System.IO;
+using System.Text.RegularExpressions;
 
 namespace clientDB
 {
@@ -25,6 +26,7 @@ namespace clientDB
         private Client client;
         int index;
         const string FileName = "clients.xml";
+        Regex regex = new Regex("[а-яА-Я]");
         ProgramData data;
 
         public EditingPage(Client client, int index, ProgramData data)
@@ -49,21 +51,21 @@ namespace clientDB
         }
         private void buttonEdit_Click(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(textBoxSurname.Text))
+            if (string.IsNullOrWhiteSpace(textBoxSurname.Text) || !regex.IsMatch(textBoxSurname.Text))
             {
                 MessageBox.Show("Необходимо ввести фамилию.", "Ошибка добавления");
                 textBoxSurname.Focus();
                 return;
             }
 
-            if (string.IsNullOrWhiteSpace(textBoxName.Text))
+            if (string.IsNullOrWhiteSpace(textBoxName.Text) || !regex.IsMatch(textBoxName.Text))
             {
                 MessageBox.Show("Необходимо ввести имя.", "Ошибка добавления");
                 textBoxName.Focus();
                 return;
             }
 
-            if (string.IsNullOrWhiteSpace(textBoxPatronymic.Text))
+            if (string.IsNullOrWhiteSpace(textBoxPatronymic.Text) || !regex.IsMatch(textBoxPatronymic.Text))
             {
                 MessageBox.Show("Необходимо ввести отчество.", "Ошибка добавления");
                 textBoxPatronymic.Focus();

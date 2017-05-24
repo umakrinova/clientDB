@@ -48,17 +48,17 @@
         <Button x:Name="buttonBack"
                 VerticalAlignment="Bottom" Content="Назад" HorizontalAlignment="Right" Margin="0,0,90,10" Width="75" RenderTransformOrigin="-0.027,0.65" Click="buttonBack_Click"/>
         <TextBox x:Name="textBoxSurname"
-                 Style="{StaticResource placeHolder}" Tag="Фамилия" HorizontalAlignment="Left" Height="23" Margin="130,12,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="260"/>
+                 Style="{StaticResource placeHolder}" Tag="Фамилия" HorizontalAlignment="Left" Height="23" Margin="130,12,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="260" TextChanged="textBoxSurname_TextChanged"/>
         <TextBlock x:Name="textBlockSurname"
                    HorizontalAlignment="Left" Margin="10,13,0,0" TextWrapping="Wrap" Text="Фамилия" VerticalAlignment="Top"/>
         <TextBlock x:Name="textBlockName"
                    HorizontalAlignment="Left" Margin="10,41,0,0" TextWrapping="Wrap" Text="Имя" VerticalAlignment="Top"/>
         <TextBox x:Name="textBoxName"
-                 Style="{StaticResource placeHolder}" Tag="Имя" HorizontalAlignment="Left" Height="23" Margin="130,40,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="260"/>
+                 Style="{StaticResource placeHolder}" Tag="Имя" HorizontalAlignment="Left" Height="23" Margin="130,40,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="260" TextChanged="textBoxName_TextChanged"/>
         <TextBlock x:Name="textBlockPatronymic"
                    HorizontalAlignment="Left" Margin="10,68,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="Отчество"/>
         <TextBox x:Name="textBoxPatronymic"
-                 Style="{StaticResource placeHolder}" Tag="Отчество" HorizontalAlignment="Left" Height="23" Margin="130,68,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="260"/>
+                 Style="{StaticResource placeHolder}" Tag="Отчество" HorizontalAlignment="Left" Height="23" Margin="130,68,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="260" TextChanged="textBoxPatronymic_TextChanged"/>
         <TextBlock x:Name="textBlockNumber"
                    HorizontalAlignment="Left" Margin="10,99,0,0" TextWrapping="Wrap" Text="Номер телефона" VerticalAlignment="Top"/>
         <xctk:MaskedTextBox 
@@ -67,9 +67,11 @@
         CaretIndex="0"
         Height="25"
         VerticalAlignment="Top"
-        FontSize="14" Margin="130,96,134,0"/>
-        <ComboBox x:Name="comboBoxTariffs" HorizontalAlignment="Left" Margin="130,126,0,0"
-                  VerticalAlignment="Top" Width="130" DisplayMemberPath="Name">
+        FontSize="14" Margin="130,96,134,0" TextChanged="textBoxNumber_TextChanged"/>
+
+
+        <ComboBox x:Name="comboBoxTariffs" HorizontalAlignment="Left" Margin="130,126,0,0" VerticalAlignment="Top" 
+                  Width="130" DisplayMemberPath="Name" SelectionChanged="comboBoxTariffs_SelectionChanged" IsEditable="True">
         </ComboBox>
         <TextBlock x:Name="textBlockTariff"
         	HorizontalAlignment="Left" Margin="10,126,0,0" TextWrapping="Wrap" Text="Тариф" VerticalAlignment="Top"
