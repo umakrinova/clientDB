@@ -33,6 +33,7 @@ namespace clientDB
                 this.tariffs = tariffs;
                 comboBoxTariffs.ItemsSource = tariffs;
                 this.clients = clients;
+                textBoxSurname.Focus();
                 Logger.Instance.Log("Страница SearchPage открыта успешно");
             }
             catch (Exception)
@@ -104,7 +105,7 @@ namespace clientDB
             buttonSearch_Click(this, e);
         }
 
-    private void comboBoxTariffs_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void comboBoxTariffs_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (comboBoxTariffs.SelectedIndex != -1) comboBoxTariffs.Text = tariffs[comboBoxTariffs.SelectedIndex].Name;
             else comboBoxTariffs.Text = "";

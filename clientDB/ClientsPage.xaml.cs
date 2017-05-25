@@ -33,7 +33,7 @@ namespace clientDB
                 data = DeserializeData();
                 Logger.Instance.Log("Страница ClientsPage открыта успешно");
             }
-            catch(Exception)
+            catch (Exception)
             {
                 MessageBox.Show
                     ("Ошибка чтения из файла. Если файл "
@@ -77,10 +77,11 @@ namespace clientDB
                 if (listBoxClients.SelectedIndex != -1)
                 {
                     data.Clients.RemoveAt(listBoxClients.SelectedIndex);
-                    SerializeData();
                     RefreshListBox();
+                    if (data.Clients.Count != 0) SerializeData();
+                    else File.Delete(FileName);
+                    Logger.Instance.Log("Клиент был удалён");
                 }
-                Logger.Instance.Log("Клиент был удалён");
             }
             catch (Exception)
             {
@@ -145,26 +146,25 @@ namespace clientDB
         {
             try
             {
+                XmlSerializer xml = new XmlSerializer(typeof(ProgramData));
                 using (FileStream fs = new FileStream(FileName, FileMode.Open))
                 {
-                    XmlSerializer xml = new XmlSerializer(typeof(ProgramData));
                     data = (ProgramData)xml.Deserialize(fs);
                 }
 
-                foreach (var client in data.Clients)
-                {
-                    int i = 0;
-                    while (i < data.Tariffs.Count && data.Tariffs[i].Id != client.TariffId)
-                        i++;
-                    if (i < data.Tariffs.Count)
-                        client.Tariff = data.Tariffs[i];
-                }
+                    foreach (var client in data.Clients)
+                    {
+                        int i = 0;
+                        while (i < data.Tariffs.Count && data.Tariffs[i].Id != client.TariffId)
+                            i++;
+                        if (i < data.Tariffs.Count)
+                            client.Tariff = data.Tariffs[i];
+                    }
 
                 Logger.Instance.Log("Данные считаны из файла " + FileName);
             }
             catch (FileNotFoundException)
             {
-                //data = new ProgramData();
                 data.Tariffs = new List<Tariff>();
                 data.Clients = new List<Client>();
                 data.Tariffs.Add(new Tariff(1, "Базовый", 300));
@@ -181,6 +181,11 @@ namespace clientDB
             }
             RefreshListBox();
             return data;
+        }
+
+        private void Page_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Delete) buttonRemove_Click(this, e);
         }
     }
 }

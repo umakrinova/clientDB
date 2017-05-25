@@ -6,7 +6,7 @@
       xmlns:local="clr-namespace:clientDB"
       mc:Ignorable="d" 
       d:DesignHeight="300" d:DesignWidth="400"
-      Title="AuthorizationPage">
+      Title="AuthorizationPage" KeyDown="Page_KeyDown">
     <Grid>
         <TextBox x:Name="textBoxLogin" Height="23" Margin="99,40,91,0" TextWrapping="Wrap" VerticalAlignment="Top"/>
         <PasswordBox x:Name="passwordBox" Margin="99,68,91,0" VerticalAlignment="Top" Height="25"/>

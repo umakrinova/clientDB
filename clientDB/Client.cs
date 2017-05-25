@@ -77,22 +77,22 @@ namespace clientDB
             set { tariffId = value; }
         }
 
-        public string Info
-        {
-            get
-            {
-                try
-                {
-                    return $"{surname} {name} {patronymic}  {number}   {tariff.Name}   {tariff.MonthCost}";
-                }
-                catch (Exception)
-                {
-                MessageBox.Show
-                    ("Ошибка формирования информационной строки о пользователе. Возможно, для него не были определены некоторые поля");
-                Logger.Instance.Log("Ошибка формирования информационной строки о пользователе");
-                return null;
-            }
-        }
-        }
+        //public string Info
+        //{
+        //    get
+        //    {
+        //        try
+        //        {
+        //            return $"{surname} {name} {patronymic}  {number}   {tariff.Name}   {tariff.MonthCost}";
+        //        }
+        //        catch (Exception)
+        //        {
+        //        MessageBox.Show
+        //            ("Ошибка формирования информационной строки о пользователе. Возможно, для него не были определены некоторые поля");
+        //        Logger.Instance.Log("Ошибка формирования информационной строки о пользователе");
+        //        return null;
+        //        }
+        //    }
+        //}
     }
 }

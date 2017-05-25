@@ -34,6 +34,7 @@ namespace clientDB
                 InitializeComponent();
                 comboBoxTariffs.ItemsSource = tariffs;
                 this.data = data;
+                textBoxSurname.Focus();
                 Logger.Instance.Log("Страница NewClientPage открыта успешно");
             }
             catch (Exception)
@@ -53,21 +54,21 @@ namespace clientDB
         {
             if (string.IsNullOrWhiteSpace(textBoxSurname.Text) || !regex.IsMatch(textBoxSurname.Text))
             {
-                MessageBox.Show("Необходимо ввести фамилию.", "Ошибка добавления");
+                MessageBox.Show("Необходимо ввести фамилию по-русски.", "Ошибка добавления");
                 textBoxSurname.Focus();
                 return;
             }
 
             if (string.IsNullOrWhiteSpace(textBoxName.Text) || !regex.IsMatch(textBoxName.Text))
             {
-                MessageBox.Show("Необходимо ввести имя.", "Ошибка добавления");
+                MessageBox.Show("Необходимо ввести имя по-русски.", "Ошибка добавления");
                 textBoxName.Focus();
                 return;
             }
 
             if (string.IsNullOrWhiteSpace(textBoxPatronymic.Text) || !regex.IsMatch(textBoxPatronymic.Text))
             {
-                MessageBox.Show("Необходимо ввести отчество.", "Ошибка добавления");
+                MessageBox.Show("Необходимо ввести отчество по-русски.", "Ошибка добавления");
                 textBoxPatronymic.Focus();
                 return;
             }
@@ -137,6 +138,11 @@ namespace clientDB
             {
                 Logger.Instance.Log("Ошибка записи в файл " + FileName);
             }
+        }
+
+        private void Page_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter) buttonAdd_Click(this, e);
         }
     }
 }

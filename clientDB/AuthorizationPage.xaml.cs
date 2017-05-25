@@ -122,5 +122,10 @@ namespace clientDB
         {
             NavigationService.Navigate(new ReadOnlyClientsPage());
         }
+
+        private void Page_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter) buttonLogIn_Click(this, e);
+        }
     }
 }

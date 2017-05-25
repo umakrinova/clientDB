@@ -6,11 +6,11 @@
       xmlns:local="clr-namespace:clientDB"
       mc:Ignorable="d" 
       d:DesignHeight="300" d:DesignWidth="400"
-      Title="SigningUpPage">
+      Title="SigningUpPage" KeyDown="Page_KeyDown">
 
     <Grid>
         <TextBox x:Name="textBoxLogin" Height="23" Margin="99,40,91,0" TextWrapping="Wrap" VerticalAlignment="Top"/>
-        <PasswordBox x:Name="passwordBox" Margin="99,68,91,0" VerticalAlignment="Top" Height="25"/>
+        <PasswordBox x:Name="passwordBox" Margin="99,68,91,0" VerticalAlignment="Top" Height="25" KeyDown="passwordBox_KeyDown"/>
         <Button x:Name="buttonSignUp" Content="Зарегестрироваться" Margin="99,98,91,0" VerticalAlignment="Top" Height="20" Click="buttonSignUp_Click"/>
         <TextBlock x:Name="textBlockHat" Margin="99,10,91,0" TextWrapping="Wrap" 
                    Text="Создание нового пользователя" VerticalAlignment="Top" Height="16" TextAlignment="Center"/>

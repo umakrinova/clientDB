@@ -9,6 +9,27 @@
       Title="ReadOnlyClientsPage">
 
     <Grid>
-        <ListBox x:Name="listBoxClients" DisplayMemberPath="Info" Margin="10,10,10,45"/>
+        <ListBox x:Name="listBoxClients" Margin="10,10,10,45">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="70"/>
+                            <ColumnDefinition Width="60"/>
+                            <ColumnDefinition Width="70"/>
+                            <ColumnDefinition Width="110"/>
+                            <ColumnDefinition Width="90"/>
+                            <ColumnDefinition Width="30"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="{Binding Surname}"></TextBlock>
+                        <TextBlock Grid.Column="1" Text="{Binding Name}"></TextBlock>
+                        <TextBlock Grid.Column="2" Text="{Binding Patronymic}"></TextBlock>
+                        <TextBlock Grid.Column="3" Text="{Binding Number}"></TextBlock>
+                        <TextBlock Grid.Column="4" Text="{Binding Tariff.Name}"></TextBlock>
+                        <TextBlock Grid.Column="5" Text="{Binding Tariff.MonthCost}"></TextBlock>
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
     </Grid>
 </Page>

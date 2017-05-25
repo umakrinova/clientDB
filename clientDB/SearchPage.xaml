@@ -43,22 +43,12 @@
     </Page.Resources>
 
     <Grid>
-        <Button x:Name="buttonSearch" Content="Поиск" Margin="0,0,10,10" Width="90" Click="buttonSearch_Click" VerticalAlignment="Bottom" HorizontalAlignment="Right"/>
-        <Button x:Name="buttonBack" Content="Назад" Margin="0,0,105,10" Width="90" Click="buttonBack_Click" VerticalAlignment="Bottom" HorizontalAlignment="Right"/>
         <TextBox x:Name="textBoxSurname"
                  Style="{StaticResource placeHolder}" Tag="Фамилия" Height="23" Margin="130,10,10,0" TextWrapping="Wrap" VerticalAlignment="Top" TextChanged="textBoxSurname_TextChanged"/>
-        <TextBlock x:Name="textBlockSurname"
-                   HorizontalAlignment="Left" Margin="10,13,0,0" TextWrapping="Wrap" Text="Фамилия" VerticalAlignment="Top"/>
-        <TextBlock x:Name="textBlockName"
-                   HorizontalAlignment="Left" Margin="10,41,0,0" TextWrapping="Wrap" Text="Имя" VerticalAlignment="Top"/>
         <TextBox x:Name="textBoxName"
                  Style="{StaticResource placeHolder}" Tag="Имя" Height="23" Margin="130,40,10,0" TextWrapping="Wrap" VerticalAlignment="Top" TextChanged="textBoxName_TextChanged"/>
-        <TextBlock x:Name="textBlockPatronymic"
-                   HorizontalAlignment="Left" Margin="10,68,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="Отчество"/>
         <TextBox x:Name="textBoxPatronymic"
                  Style="{StaticResource placeHolder}" Tag="Отчество" Height="23" Margin="130,68,10,0" TextWrapping="Wrap" VerticalAlignment="Top" TextChanged="textBoxPatronymic_TextChanged"/>
-        <TextBlock x:Name="textBlockNumber"
-                   HorizontalAlignment="Left" Margin="10,99,0,0" TextWrapping="Wrap" Text="Номер телефона" VerticalAlignment="Top"/>
         <xctk:MaskedTextBox 
         x:Name="textBoxNumber" 
         Mask="+7(000)-000-0000"                                
@@ -67,10 +57,42 @@
         VerticalAlignment="Top"
         FontSize="14" Margin="130,96,134,0" TextChanged="textBoxNumber_TextChanged"/>
         <ComboBox x:Name="comboBoxTariffs" Margin="130,126,134,0" VerticalAlignment="Top" DisplayMemberPath="Name" SelectionChanged="comboBoxTariffs_SelectionChanged" IsEditable="True"/>
+        <Button x:Name="buttonSearch" Content="Поиск" Margin="0,0,10,10" Width="90" Click="buttonSearch_Click" VerticalAlignment="Bottom" HorizontalAlignment="Right"/>
+        <Button x:Name="buttonBack" Content="Назад" Margin="0,0,105,10" Width="90" Click="buttonBack_Click" VerticalAlignment="Bottom" HorizontalAlignment="Right"/>
+        <TextBlock x:Name="textBlockSurname"
+                   HorizontalAlignment="Left" Margin="10,13,0,0" TextWrapping="Wrap" Text="Фамилия" VerticalAlignment="Top"/>
+        <TextBlock x:Name="textBlockName"
+                   HorizontalAlignment="Left" Margin="10,41,0,0" TextWrapping="Wrap" Text="Имя" VerticalAlignment="Top"/>
+
+        <TextBlock x:Name="textBlockPatronymic"
+                   HorizontalAlignment="Left" Margin="10,68,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="Отчество"/>
+        <TextBlock x:Name="textBlockNumber"
+                   HorizontalAlignment="Left" Margin="10,99,0,0" TextWrapping="Wrap" Text="Номер телефона" VerticalAlignment="Top"/>
         <TextBlock x:Name="textBlockTariff"
         	HorizontalAlignment="Left" Margin="10,126,0,0" TextWrapping="Wrap" Text="Тариф" VerticalAlignment="Top"
                    />
-        <ListBox x:Name="listBoxFoundClients" Margin="10,165,10,45" DisplayMemberPath="Info"/>
+        <ListBox x:Name="listBoxFoundClients" Margin="10,165,10,45">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="70"/>
+                            <ColumnDefinition Width="60"/>
+                            <ColumnDefinition Width="70"/>
+                            <ColumnDefinition Width="110"/>
+                            <ColumnDefinition Width="90"/>
+                            <ColumnDefinition Width="30"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="{Binding Surname}"></TextBlock>
+                        <TextBlock Grid.Column="1" Text="{Binding Name}"></TextBlock>
+                        <TextBlock Grid.Column="2" Text="{Binding Patronymic}"></TextBlock>
+                        <TextBlock Grid.Column="3" Text="{Binding Number}"></TextBlock>
+                        <TextBlock Grid.Column="4" Text="{Binding Tariff.Name}"></TextBlock>
+                        <TextBlock Grid.Column="5" Text="{Binding Tariff.MonthCost}"></TextBlock>
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
         <TextBlock x:Name="textBlockInfo" HorizontalAlignment="Right" Margin="0,91,30,0" 
                    TextWrapping="Wrap" Text="*введите полный номер" VerticalAlignment="Top" Width="99" Foreground="LightGray" FontStyle="Italic"/>
     </Grid>

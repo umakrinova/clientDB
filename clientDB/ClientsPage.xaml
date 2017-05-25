@@ -6,10 +6,31 @@
       xmlns:local="clr-namespace:clientDB"
       mc:Ignorable="d" 
       d:DesignHeight="350" d:DesignWidth="400"
-      Title="ClientsPage">
+      Title="ClientsPage" KeyDown="Page_KeyDown">
 
     <Grid>
-        <ListBox x:Name="listBoxClients" DisplayMemberPath="Info" Margin="10,10,10,45" SelectionChanged="listBoxClients_SelectionChanged"/>
+        <ListBox x:Name="listBoxClients" Margin="10,10,10,45" SelectionChanged="listBoxClients_SelectionChanged">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="70"/>
+                            <ColumnDefinition Width="60"/>
+                            <ColumnDefinition Width="70"/>
+                            <ColumnDefinition Width="110"/>
+                            <ColumnDefinition Width="90"/>
+                            <ColumnDefinition Width="30"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="{Binding Surname}"></TextBlock>
+                        <TextBlock Grid.Column="1" Text="{Binding Name}"></TextBlock>
+                        <TextBlock Grid.Column="2" Text="{Binding Patronymic}"></TextBlock>
+                        <TextBlock Grid.Column="3" Text="{Binding Number}"></TextBlock>
+                        <TextBlock Grid.Column="4" Text="{Binding Tariff.Name}"></TextBlock>
+                        <TextBlock Grid.Column="5" Text="{Binding Tariff.MonthCost}"></TextBlock>
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
         <Button x:Name="buttonAdd" Content="Добавить" HorizontalAlignment="Right"
                 Margin="0,0,254,10" VerticalAlignment="Bottom" Width="75" Click="buttonAdd_Click"/>
         <Button x:Name="buttonRemove" Content="Удалить" HorizontalAlignment="Right"

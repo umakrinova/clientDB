@@ -33,7 +33,7 @@ namespace clientDB
                 InitializeComponent();
                 data = DeserializeData();
                 Logger.Instance.Log("Страница ReadOnlyClientsPage открыта успешно");
-            }
+        }
             catch
             {
                 MessageBox.Show
@@ -41,8 +41,8 @@ namespace clientDB
                     + FileName + " существует, но в него не записаны данные о клиентах, удалите файл.");
                 Logger.Instance.Log("Открытие страницы ReadOnlyClientsPage завершилось с ошибкой: произошла ошибка чтения из файла");
                 System.Diagnostics.Process.GetCurrentProcess().Kill();
-            }
-        }
+    }
+}
         private ProgramData DeserializeData()
         {
             try

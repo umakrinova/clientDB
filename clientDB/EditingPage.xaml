@@ -7,7 +7,7 @@
       xmlns:local="clr-namespace:clientDB"
       mc:Ignorable="d" 
       d:DesignHeight="380" d:DesignWidth="410"
-      Title="EditingPage">
+      Title="EditingPage" KeyDown="Page_KeyDown">
 
     <Page.Resources>
         <Style x:Key="placeHolder" TargetType="{x:Type TextBox}" BasedOn="{StaticResource {x:Type TextBox}}">

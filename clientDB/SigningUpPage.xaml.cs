@@ -33,6 +33,7 @@ namespace clientDB
             {
                 InitializeComponent();
                 users = DeserializeData();
+                textBoxLogin.Focus();
                 Logger.Instance.Log("Страница SigningUpPage открыта успешно");
             }
             catch (Exception)
@@ -138,6 +139,19 @@ namespace clientDB
                 System.Diagnostics.Process.GetCurrentProcess().Kill();
             }
             return users;
+        }
+
+        private void passwordBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                buttonSignUp_Click(this, e);
+            }
+        }
+
+        private void Page_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter) buttonSignUp_Click(this, e);
         }
     }
 }
