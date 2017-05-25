@@ -43,13 +43,10 @@ namespace clientDB
 
         private void buttonSearch_Click(object sender, RoutedEventArgs e)
         {
-            listBoxFoundClients.Items.Clear();
-            if ((!textBoxNumber.IsMaskFull) && (textBoxNumber.Text != "+7(___)-___-____"))
+            if (listBoxFoundClients != null)
             {
-                MessageBox.Show("Номер телефона введён некорректно.");
+                listBoxFoundClients.Items.Clear();
             }
-            else
-            {
                 try
                 {
                     for (int i = 0; i < clients.Count; i++)
@@ -69,12 +66,6 @@ namespace clientDB
                 {
                     Logger.Instance.Log("Произошла ошибка при поиске клиентов");
                 }
-            }
-            //textBoxSurname.Text = "";
-            //textBoxName.Text = "";
-            //textBoxPatronymic.Text = "";
-            //textBoxNumber.Text = "";
-            //comboBoxTariffs.SelectedIndex = -1;
         }
 
         private void buttonBack_Click(object sender, RoutedEventArgs e)
@@ -110,10 +101,7 @@ namespace clientDB
 
         private void textBoxNumber_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (textBoxNumber.IsMaskFull)
-            {
-                buttonSearch_Click(this, e);
-            }
+            buttonSearch_Click(this, e);
         }
 
     private void comboBoxTariffs_SelectionChanged(object sender, SelectionChangedEventArgs e)

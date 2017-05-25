@@ -7,7 +7,7 @@
       xmlns:local="clr-namespace:clientDB"
       xmlns:wpfTool="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit"
       mc:Ignorable="d" 
-      d:DesignHeight="350" d:DesignWidth="400"
+      d:DesignHeight="380" d:DesignWidth="410"
       Title="SearchPage">
 
     <Page.Resources>
@@ -43,22 +43,20 @@
     </Page.Resources>
 
     <Grid>
-        <Button x:Name="buttonSearch"
-                VerticalAlignment="Bottom" Content="Поиск" HorizontalAlignment="Right" Margin="0,0,10,10" Width="75" Click="buttonSearch_Click"/>
-        <Button x:Name="buttonBack"
-                VerticalAlignment="Bottom" Content="Назад" HorizontalAlignment="Right" Margin="0,0,90,10" Width="75" RenderTransformOrigin="-0.027,0.65" Click="buttonBack_Click"/>
+        <Button x:Name="buttonSearch" Content="Поиск" Margin="0,0,10,10" Width="90" Click="buttonSearch_Click" VerticalAlignment="Bottom" HorizontalAlignment="Right"/>
+        <Button x:Name="buttonBack" Content="Назад" Margin="0,0,105,10" Width="90" Click="buttonBack_Click" VerticalAlignment="Bottom" HorizontalAlignment="Right"/>
         <TextBox x:Name="textBoxSurname"
-                 Style="{StaticResource placeHolder}" Tag="Фамилия" HorizontalAlignment="Left" Height="23" Margin="130,12,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="260" TextChanged="textBoxSurname_TextChanged"/>
+                 Style="{StaticResource placeHolder}" Tag="Фамилия" Height="23" Margin="130,10,10,0" TextWrapping="Wrap" VerticalAlignment="Top" TextChanged="textBoxSurname_TextChanged"/>
         <TextBlock x:Name="textBlockSurname"
                    HorizontalAlignment="Left" Margin="10,13,0,0" TextWrapping="Wrap" Text="Фамилия" VerticalAlignment="Top"/>
         <TextBlock x:Name="textBlockName"
                    HorizontalAlignment="Left" Margin="10,41,0,0" TextWrapping="Wrap" Text="Имя" VerticalAlignment="Top"/>
         <TextBox x:Name="textBoxName"
-                 Style="{StaticResource placeHolder}" Tag="Имя" HorizontalAlignment="Left" Height="23" Margin="130,40,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="260" TextChanged="textBoxName_TextChanged"/>
+                 Style="{StaticResource placeHolder}" Tag="Имя" Height="23" Margin="130,40,10,0" TextWrapping="Wrap" VerticalAlignment="Top" TextChanged="textBoxName_TextChanged"/>
         <TextBlock x:Name="textBlockPatronymic"
                    HorizontalAlignment="Left" Margin="10,68,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="Отчество"/>
         <TextBox x:Name="textBoxPatronymic"
-                 Style="{StaticResource placeHolder}" Tag="Отчество" HorizontalAlignment="Left" Height="23" Margin="130,68,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="260" TextChanged="textBoxPatronymic_TextChanged"/>
+                 Style="{StaticResource placeHolder}" Tag="Отчество" Height="23" Margin="130,68,10,0" TextWrapping="Wrap" VerticalAlignment="Top" TextChanged="textBoxPatronymic_TextChanged"/>
         <TextBlock x:Name="textBlockNumber"
                    HorizontalAlignment="Left" Margin="10,99,0,0" TextWrapping="Wrap" Text="Номер телефона" VerticalAlignment="Top"/>
         <xctk:MaskedTextBox 
@@ -68,15 +66,12 @@
         Height="25"
         VerticalAlignment="Top"
         FontSize="14" Margin="130,96,134,0" TextChanged="textBoxNumber_TextChanged"/>
-
-
-        <ComboBox x:Name="comboBoxTariffs" HorizontalAlignment="Left" Margin="130,126,0,0" VerticalAlignment="Top" 
-                  Width="130" DisplayMemberPath="Name" SelectionChanged="comboBoxTariffs_SelectionChanged" IsEditable="True">
-        </ComboBox>
+        <ComboBox x:Name="comboBoxTariffs" Margin="130,126,134,0" VerticalAlignment="Top" DisplayMemberPath="Name" SelectionChanged="comboBoxTariffs_SelectionChanged" IsEditable="True"/>
         <TextBlock x:Name="textBlockTariff"
         	HorizontalAlignment="Left" Margin="10,126,0,0" TextWrapping="Wrap" Text="Тариф" VerticalAlignment="Top"
                    />
-        <ListBox x:Name="listBoxFoundClients" HorizontalAlignment="Left" Margin="10,0,0,59" DisplayMemberPath="Info" 
-                 Width="380" Height="126" VerticalAlignment="Bottom"/>
+        <ListBox x:Name="listBoxFoundClients" Margin="10,165,10,45" DisplayMemberPath="Info"/>
+        <TextBlock x:Name="textBlockInfo" HorizontalAlignment="Right" Margin="0,91,30,0" 
+                   TextWrapping="Wrap" Text="*введите полный номер" VerticalAlignment="Top" Width="99" Foreground="LightGray" FontStyle="Italic"/>
     </Grid>
 </Page>

@@ -6,7 +6,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:clientDB"
       mc:Ignorable="d" 
-      d:DesignHeight="350" d:DesignWidth="400"
+      d:DesignHeight="380" d:DesignWidth="410"
       Title="EditingPage">
 
     <Page.Resources>
@@ -42,11 +42,11 @@
     </Page.Resources>
     <Grid>
         <TextBox x:Name="textBoxSurname"
-                 Style="{StaticResource placeHolder}" Tag="Фамилия" HorizontalAlignment="Left" Height="23" Margin="130,12,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="241"/>
+                 Style="{StaticResource placeHolder}" Tag="Фамилия" Height="23" Margin="130,12,10,0" TextWrapping="Wrap" VerticalAlignment="Top"/>
         <TextBox x:Name="textBoxName"
-                 Style="{StaticResource placeHolder}" Tag="Имя" HorizontalAlignment="Left" Height="23" Margin="130,40,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="241"/>
+                 Style="{StaticResource placeHolder}" Tag="Имя" Height="23" Margin="130,40,10,0" TextWrapping="Wrap" VerticalAlignment="Top"/>
         <TextBox x:Name="textBoxPatronymic"
-                 Style="{StaticResource placeHolder}" Tag="Отчество" HorizontalAlignment="Left" Height="23" Margin="130,68,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="241"/>
+                 Style="{StaticResource placeHolder}" Tag="Отчество" Height="23" Margin="130,68,10,0" TextWrapping="Wrap" VerticalAlignment="Top"/>
         <xctk:MaskedTextBox 
         x:Name="textBoxNumber" 
         Mask="+7(000)-000-0000"                                
@@ -54,9 +54,8 @@
         Height="25"
         VerticalAlignment="Top"
         FontSize="14" Margin="130,96,134,0"/>
-        <ComboBox x:Name="comboBoxTariffs" HorizontalAlignment="Left" Margin="130,126,0,0"
-                  VerticalAlignment="Top" Width="130" DisplayMemberPath="Name">
-        </ComboBox>
+        <ComboBox x:Name="comboBoxTariffs" Margin="130,126,134,0"
+                  VerticalAlignment="Top" DisplayMemberPath="Name" IsEditable="True"/>
         <TextBlock x:Name="textBlockSurname"
                    HorizontalAlignment="Left" Margin="10,13,0,0" TextWrapping="Wrap" Text="Фамилия" VerticalAlignment="Top"/>
         <TextBlock x:Name="textBlockName"
